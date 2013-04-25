@@ -1,0 +1,57 @@
+create or replace
+procedure admin_report(usr_id in users.user_id%type) is
+x varchar2(1);
+counter number;
+usr_out_id messages.user_id%type;
+begin
+x := check_user_type(usr_id);
+if (x = 'A' )then 
+
+  select count(*) into counter from regular_user where active_flag='Y';
+  dbms_output.put_line('Number of Active users: ' || counter);
+  
+  select count(*) into counter from regular_user where active_flag='N';
+  dbms_output.put_line('Number of inActive users: ' || counter);
+  
+  select count(*),user_id into counter,usr_out_id from messages where message_type='SENT'
+  or message_type='RECEIVED';
+  dbms_output.put_line('Most active user: ' || usr_out_id);
+  
+  
+  
+  select count(*),user_id into counter,usr_out_id from messages where message_type='SENT'
+  or message_type='RECEIVED';
+  dbms_output.put_line('Most active user: ' || usr_out_id);
+  
+  
+  select count(*)  from user_contacts, regular_user  where  regular_user.user_id = user_contacts.user_id 
+  and regular_user.active_flag='Y';
+  
+  select * from user_contacts;
+  
+  select avg() messages.message_type, messages.user_id from  regular_user, messages  where  regular_user.user_id = messages.user_id and regular_user.active_flag = 'Y'
+  group by
+  
+  group by message_type  
+  
+  
+  
+  the average number of contacts for each active user in the system
+• the most active user (in terms of the total number of sent and received messages) in each department in
+the last 15 days
+16. Update the current system time
+
+select starName
+from Movies, StarsIn
+where title=movieTitle and year=movieYear
+group by starName, studioName
+having count(*)>=10
+  
+  
+  
+  
+  
+else
+  dbms_output.put_line('Only an Admin is allowed to run these reports');
+  end if;
+end;
